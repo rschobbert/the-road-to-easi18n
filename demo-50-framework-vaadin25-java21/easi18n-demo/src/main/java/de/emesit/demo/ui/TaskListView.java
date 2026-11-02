@@ -12,17 +12,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
@@ -40,6 +37,8 @@ import de.emesit.demo.i18n.I18n;
 import de.emesit.demo.task.Task;
 import de.emesit.demo.task.TaskService;
 import de.emesit.easi18n.vaadin.AppLanguageWrapper;
+import de.emesit.easi18n.vaadin.I18nDatePicker;
+import de.emesit.easi18n.vaadin.I18nVaadin;
 
 @Route(value = "")
 class TaskListView extends VerticalLayout implements LocaleChangeObserver, HasDynamicTitle {
@@ -61,7 +60,7 @@ class TaskListView extends VerticalLayout implements LocaleChangeObserver, HasDy
 
     final H2         viewHeading = new H2();
     final TextField  description = new TextField();
-    final DatePicker dueDate     = new DatePicker();
+    final I18nDatePicker dueDate;
     final Button     createBtn   = new Button();
 
     final List<Task>             tasks        = new ArrayList<>();
@@ -76,7 +75,7 @@ class TaskListView extends VerticalLayout implements LocaleChangeObserver, HasDy
         // Language switching is done on the instance inside AppLanguageWrapper
         // so we must use that.
         this.i18n = appLanguageWrapper.getI18n(I18n.class);
-        
+        this.dueDate = new I18nDatePicker(appLanguageWrapper.getI18n(I18nVaadin.class));
         this.appLanguageWrapper = appLanguageWrapper;
 
         // for demonstration purposes, give the user the possibility to exceed the limit.
@@ -147,45 +146,13 @@ class TaskListView extends VerticalLayout implements LocaleChangeObserver, HasDy
 
         dueDate.setLabel(i18n.dueDate());
         dueDate.setPlaceholder(i18n.dueDateHint());
-        setDatePickerI18n();
+        dueDate.updateI18n();
 
         createBtn.setText(i18n.create());
 
         taskGrid.getColumnByKey(COL_DESC   ).setHeader(i18n.description());
         taskGrid.getColumnByKey(COL_DUE    ).setHeader(i18n.dueDate    ());
         taskGrid.getColumnByKey(COL_CREATED).setHeader(i18n.createdAt  ());
-    }
-
-    private List<String> splitTranslation(String value, int numExpectedItems) {
-        String[] itemsSplitted = value.split(",");
-        if (itemsSplitted.length == numExpectedItems) {
-            return Arrays.stream(itemsSplitted).filter(Objects::nonNull).map(String::trim).toList();
-        } else {
-            return List.of();
-        }
-    }
-    
-    private void setDatePickerI18n() {
-        List<String> months = splitTranslation(i18n.months(), 12);
-        List<String> days   = splitTranslation(i18n.days(), 7);
-        List<String> daysShort = splitTranslation(i18n.daysShort(), 7);
-        
-        String today  = i18n.today();
-        String cancel = i18n.cancel();
-        
-        DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
-        if ( ! months.isEmpty()) {
-            datePickerI18n.setMonthNames(months);
-        }
-        if ( ! days.isEmpty()) {
-            datePickerI18n.setWeekdays(days);
-        }
-        if ( ! daysShort.isEmpty()) {
-            datePickerI18n.setWeekdaysShort(daysShort);
-        }
-        datePickerI18n.setToday(today);
-        datePickerI18n.setCancel(cancel);
-        dueDate.setI18n(datePickerI18n);
     }
 
     private void createTask() {

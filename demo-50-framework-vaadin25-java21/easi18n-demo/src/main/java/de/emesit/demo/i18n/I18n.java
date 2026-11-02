@@ -56,30 +56,6 @@ public interface I18n extends I18nBase {
     @TranslationES("Creado el")
     String createdAt();
 
-    @TranslationDE("Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember")
-    @TranslationEN("January, February, March, April, May, June, July, August, September, October, November, December")
-    @TranslationES("Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre")
-    String months();
-
-    @TranslationDE("Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag")
-    @TranslationEN("Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday")
-    @TranslationES("Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado")
-    String days();
-
-    @TranslationDE("So, Mo, Di, Mi, Do, Fr, Sa")
-    @TranslationEN("Su, Mo, Tu, We, Th, Fr, Sa")
-    @TranslationES("Do, Lu, Ma, Mi, Ju, Vi, Sá")
-    String daysShort();
-
-    @TranslationDE("Heute")
-    @TranslationEN("Today")
-    @TranslationES("Hoy")
-    String today();
-
-    @TranslationDE("Abbrechen")
-    @TranslationEN("Cancel")
-    @TranslationES("Cancelar")
-    String cancel();
 
     @TranslationDE("Gratulation<br><br>Die Aufgabe wurde erfolgreich hinzugefügt")
     @TranslationEN("Congratulations<br><br>Task was successfully added")

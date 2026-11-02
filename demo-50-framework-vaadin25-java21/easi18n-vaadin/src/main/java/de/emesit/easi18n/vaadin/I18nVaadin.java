@@ -1,5 +1,7 @@
 package de.emesit.easi18n.vaadin;
 
+import java.util.List;
+
 import de.emesit.easi18n.annotation.TranslationBG;
 import de.emesit.easi18n.annotation.TranslationCZ;
 import de.emesit.easi18n.annotation.TranslationDE;
@@ -30,6 +32,49 @@ import de.emesit.easi18n.annotation.TranslationZH;
 import de.emesit.easi18n.internal.I18nBase;
 
 public interface I18nVaadin extends I18nBase {
+    /*
+    private List<String> monthNames;
+    private List<String> weekdays;
+    private List<String> weekdaysShort;
+    private List<String> dateFormats;
+    private int firstDayOfWeek;
+    private String today;
+    private String cancel;
+    private String dialogAccessibleName;
+    private LocalDate referenceDate;
+    private String badInputErrorMessage;
+    private String requiredErrorMessage;
+    private String minErrorMessage;
+    private String maxErrorMessage;
+    private String disabledDateErrorMessage;
+*/
+    
+    @TranslationDE("Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember")
+    @TranslationEN("January, February, March, April, May, June, July, August, September, October, November, December")
+    @TranslationES("Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre")
+    List<String> monthNames();
+
+    @TranslationDE("Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag")
+    @TranslationEN("Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday")
+    @TranslationES("Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado")
+    List<String> weekdays();
+
+    @TranslationDE("So, Mo, Di, Mi, Do, Fr, Sa")
+    @TranslationEN("Su, Mo, Tu, We, Th, Fr, Sa")
+    @TranslationES("Do, Lu, Ma, Mi, Ju, Vi, Sá")
+    List<String> weekdaysShort();
+
+    @TranslationDE("Heute")
+    @TranslationEN("Today")
+    @TranslationES("Hoy")
+    String today();
+
+    @TranslationDE("Abbrechen")
+    @TranslationEN("Cancel")
+    @TranslationES("Cancelar")
+    String cancel();
+    
+    
     
     @TranslationDE("Sprache")
     @TranslationEN("Language")

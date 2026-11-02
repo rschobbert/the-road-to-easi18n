@@ -4,10 +4,13 @@ import static de.emesit.easi18n.internal.I18nMethodTranslationReader.methodNameT
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -127,7 +130,21 @@ public class I18nBundle {
                 language = ((I18nLanguage)args[0]);
                 return null;
             } else {
-                return getTranslation(language, method.getName(), args);
+                String translationString = getTranslation(language, method.getName(), args);
+                Class<?> returnType = method.getReturnType();
+                if (returnType == String.class) {
+                    return translationString;
+                } else if (returnType == List.class) {
+                    if (method.getGenericReturnType() instanceof ParameterizedType parameterizedType) {
+                        Type[] typeArguments = parameterizedType.getActualTypeArguments();
+                        if (typeArguments.length > 0 && typeArguments[0] == String.class) {
+                            String[] itemsSplitted = translationString.split(",");
+                            return Arrays.stream(itemsSplitted).filter(Objects::nonNull).map(String::trim).toList();
+                        }
+                    }
+                }
+                
+                throw new IllegalStateException("wrong return type on method "+method.getName()+": "+returnType);
             }
         }
     }
